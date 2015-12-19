@@ -10,9 +10,24 @@
 
 @interface ViewController ()
 
+@property (weak, nonatomic) IBOutlet UILabel *label;
+
 @end
 
 @implementation ViewController
+
+- (IBAction)addButtonTapped:(id)sender {
+    NSMutableDictionary *attributesDictionary = [NSMutableDictionary dictionary];
+    [attributesDictionary setObject:[UIFont systemFontOfSize:arc4random() % 25] forKey:NSFontAttributeName];
+    
+    NSAttributedString *newParagraph = [[NSMutableAttributedString alloc] initWithString:@"Paragraph 3" attributes:attributesDictionary];
+    
+    self.label.text = [self.label.text stringByAppendingString:newParagraph];
+}
+
+- (IBAction)clearButtonTapped:(id)sender {
+    self.label.text = @"";
+}
 
 - (void)viewDidLoad {
 	[super viewDidLoad];
