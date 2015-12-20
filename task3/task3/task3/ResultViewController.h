@@ -10,4 +10,6 @@
 
 @interface ResultViewController : UIViewController
 
+@property (weak, nonatomic) IBOutlet UILabel *userInfoLabel;
+
 @end
