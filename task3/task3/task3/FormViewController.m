@@ -66,6 +66,37 @@
     }
 }
 
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([segue.identifier isEqualToString:@"MySegue"]) {
+        NSMutableParagraphStyle *paragraphStyle = [NSMutableParagraphStyle new];
+        paragraphStyle.lineSpacing = 10;
+        
+        NSString *content = [NSString stringWithFormat:@"Name: %@;\nEmail: %@\nPhone Number: %@\nAddress: %@\nComments: %@", self.nameTextField.text, self.emailTextField.text, self.phoneTextField.text, self.addressTextField.text, self.commentsTextField.text];
+        NSMutableAttributedString *attributedContent = [[NSMutableAttributedString alloc] initWithString:content
+                                                                                              attributes:@{
+                                                                                     NSFontAttributeName: [UIFont fontWithName:@"Arial" size:12]}];
+        NSRange nameHeader = [content rangeOfString:@"Name: "];
+        NSRange emailHeader = [content rangeOfString:@"Email: "];
+        NSRange phoneHeader = [content rangeOfString:@"Phone Number: "];
+        NSRange addressHeader = [content rangeOfString:@"Address: "];
+        NSRange commentsHeader = [content rangeOfString:@"Comments: "];
+        
+        NSArray *headers = @[[NSValue valueWithRange:nameHeader],
+                             [NSValue valueWithRange:emailHeader],
+                             [NSValue valueWithRange:phoneHeader],
+                             [NSValue valueWithRange:addressHeader],
+                             [NSValue valueWithRange:commentsHeader]];
+        
+        for (int i = 0; i < headers.count; i++) {
+            [attributedContent addAttributes:@{NSFontAttributeName: [UIFont fontWithName:@"Georgia" size:15],
+                                               NSForegroundColorAttributeName: [UIColor blueColor]} range:[[headers objectAtIndex:i] rangeValue]];
+            [attributedContent addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:[[headers objectAtIndex:i] rangeValue]];
+        }
+        ResultViewController *rvc = segue.destinationViewController;
+        rvc.userInfoLabel.attributedText = attributedContent;
+    }
+}
+
 - (BOOL)validateEmailWithString:(NSString*)checkString
 {
     BOOL stricterFilter = NO;
